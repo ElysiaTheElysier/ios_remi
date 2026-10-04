@@ -1,0 +1,7 @@
+*.xcodeproj/
+DerivedData/
+*.xcuserstate
+*.xcresult/
+DeviceDerivedData/
+artifacts/
+Info.plist

@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.mobileprovision
+*.key
+*.ppn
+*.ipa
+*.log

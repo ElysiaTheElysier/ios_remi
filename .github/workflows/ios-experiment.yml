@@ -1,0 +1,53 @@
+name: iPhone native experiment
+
+on:
+  push:
+    branches: [main]
+    paths: ['ios/**', '.github/workflows/ios-experiment.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: iphone-experiment-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    name: Build and test on iPhone Simulator
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Record Apple toolchain
+        run: |
+          xcodebuild -version
+          xcrun simctl list devices available
+      - name: Install project generator
+        run: brew install xcodegen
+      - name: Generate, compile and run XCTest
+        working-directory: ios
+        env:
+          RESULT_BUNDLE_PATH: TestResults.xcresult
+        run: bash scripts/check.sh
+      - name: Upload simulator test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iphone-simulator-test-results
+          path: ios/TestResults.xcresult
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Build unsigned iPhone package after tests pass
+        working-directory: ios
+        run: bash scripts/package-device.sh
+      - name: Upload unsigned IPA for personal signing
+        uses: actions/upload-artifact@v4
+        with:
+          name: remi-iphone-unsigned
+          path: ios/artifacts/*
+          if-no-files-found: error
+          retention-days: 7
