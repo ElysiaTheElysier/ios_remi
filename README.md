@@ -19,6 +19,13 @@ An unsigned IPA must be personally signed before installation. A failed workflow
 or simulator report is not a usable phone build. Actual build status belongs to
 [GitHub Actions](https://github.com/ElysiaTheElysier/ios_remi/actions).
 
+Verified build on 2026-10-04: [run 37189052422](https://github.com/ElysiaTheElysier/ios_remi/actions/runs/37189052422)
+passed all 11 XCTest cases (zero failures) with Xcode 16.4 and successfully built
+the unsigned iPhone IPA from commit `a277bfb65e097660ad287108a0b1bc38f7a9e6a2`.
+The [IPA artifact](https://github.com/ElysiaTheElysier/ios_remi/actions/runs/37189052422/artifacts/11298413386)
+expires on 2026-10-11. Physical installation, backend integration and locked-screen
+wake detection have not yet been verified on a real iPhone.
+
 ## Install on your iPhone from Windows
 
 1. Download/extract the successful `remi-iphone-unsigned` artifact.
